@@ -1,0 +1,45 @@
+apply plugin: "application"
+apply plugin: "jtransc"
+
+mainClassName = "com.github.czyzby.test.jtransc.JTranscLauncher"
+
+sourceSets.main.resources.srcDirs += [ rootProject.file('assets').absolutePath ]
+sourceCompatibility = 1.7
+
+dependencies {
+  jtransc "com.jtransc.gdx:gdx-backend-jtransc:$jtranscVersion"
+  jtransc "com.jtransc.gdx:gdx-box2d-jtransc:$jtranscVersion"
+  jtransc "com.jtransc.gdx:gdx-controllers-jtransc:$jtranscVersion"
+
+  compile project(':core')
+  compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+  compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+  compile "com.github.czyzby:gdx-autumn-jtransc:1.7.1.9.3-SNAPSHOT"
+  compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+  compile "com.badlogicgames.gdx:gdx-controllers-desktop:$gdxVersion"
+  compile "com.badlogicgames.gdx:gdx-controllers-platform:$gdxVersion:natives-desktop"
+}
+
+jtransc {
+	// Optional properties (https://github.com/jtransc/jtransc/blob/master/jtransc-gradle-plugin/src/com/jtransc/gradle/JTranscExtension.kt)
+	title = 'jtransc-test'
+	name = 'jtransc-test'
+	version = '0.0.1-SNAPSHOT'
+	company = "jtransc-test"
+	package_ = "com.github.czyzby.test"
+	assets = [rootProject.file('assets').absolutePath]
+	embedResources = true
+	vsync = true
+	relooper = true
+	minimizeNames = false
+	analyzer = false
+
+	customTarget("cpp", "haxe:cpp", "exe")
+	customTarget("windows", "haxe:windows", "exe")
+	customTarget("linux", "haxe:linux", "bin")
+	customTarget("mac", "haxe:mac", "app")
+	customTarget("android", "haxe:android", "apk")
+	customTarget("ios", "haxe:ios", "ipa")
+	customTarget("tizen", "haxe:tizen", "app")
+	customTargetMinimized("html5", "haxe:html5", "js")
+}
